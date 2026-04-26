@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Analista Pro V5.3 - REPARADO</title>
+    <title>Bac Bo Elite V5.5</title>
     <style>
         :root {
             --bg: #020617;
@@ -20,103 +20,62 @@
         body {
             background: var(--bg);
             color: white;
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: system-ui, sans-serif;
             height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        .container {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-            padding-bottom: 260px;
-        }
+        .container { flex: 1; padding: 10px; overflow-y: auto; padding-bottom: 260px; }
 
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 10px;
-        }
+        /* DASHBOARD */
+        .dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+        .stat-card { background: var(--card); padding: 12px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
+        .stat-val { font-size: 15px; font-weight: bold; display: block; color: #fff; }
+        .stat-label { font-size: 8px; color: var(--text-muted); text-transform: uppercase; }
 
-        .stat-card {
-            background: var(--card);
-            padding: 12px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .stat-val { font-size: 16px; font-weight: bold; display: block; color: #fff; }
-        .stat-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; }
-
+        /* MONITOR DE ESTRATÉGIA */
         .monitor {
-            background: #0f172a;
+            background: linear-gradient(145deg, #0f172a, #1e293b);
             padding: 20px;
             border-radius: 20px;
             text-align: center;
-            border: 2px solid #1e293b;
-            transition: all 0.3s ease;
+            border: 2px solid #334155;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .sinal-verde { border-color: var(--success); box-shadow: 0 0 20px rgba(34, 197, 94, 0.2); }
-        .sinal-alerta { border-color: var(--danger); box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); }
+        .sinal-forte { border-color: var(--success); box-shadow: 0 0 25px rgba(34, 197, 94, 0.3); }
+        .sinal-risco { border-color: var(--danger); }
 
-        #previsao { font-size: 36px; font-weight: 900; margin: 10px 0; color: #fff; }
-        #status-entrada { 
-            font-weight: bold; 
-            font-size: 12px; 
-            padding: 6px 16px; 
-            border-radius: 50px; 
-            display: inline-block;
-            background: #334155;
-            color: #fff;
-        }
+        #previsao { font-size: 38px; font-weight: 900; margin: 5px 0; text-transform: uppercase; }
+        #status-entrada { font-size: 11px; font-weight: 800; padding: 5px 15px; border-radius: 50px; display: inline-block; background: #334155; }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            gap: 6px;
-            margin-top: 15px;
-            padding: 12px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-        }
-        .celula { aspect-ratio: 1; border-radius: 6px; }
-
-        .dock {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: #0f172a;
-            padding: 20px;
-            border-top: 1px solid #334155;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-        }
-
-        .botoes-principais {
+        /* LISTA DE ESTRATÉGIAS DETECTADAS */
+        .estrategias-lista {
             display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+            margin-top: 10px;
         }
+        .tag-estrategia { font-size: 9px; padding: 3px 8px; background: rgba(255,255,255,0.1); border-radius: 4px; color: var(--text-muted); }
+        .tag-ativa { background: var(--accent); color: white; }
 
-        .btn-cor { width: 65px; height: 65px; border-radius: 50%; border: none; cursor: pointer; transition: transform 0.1s; }
+        /* GRID */
+        .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 12px; }
+        .celula { aspect-ratio: 1; border-radius: 5px; border: 1px solid rgba(255,255,255,0.05); }
+
+        /* DOCK */
+        .dock { position: fixed; bottom: 0; left: 0; right: 0; background: #0f172a; padding: 15px 20px 25px; border-top: 1px solid #334155; }
+        .botoes-principais { display: flex; justify-content: space-around; align-items: center; margin-bottom: 15px; }
+        .btn-cor { width: 65px; height: 65px; border-radius: 50%; border: none; cursor: pointer; transition: 0.1s; }
         .btn-cor:active { transform: scale(0.9); }
-        .azul { background: var(--accent); box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
-        .amarelo { background: var(--warning); width: 85px; height: 85px; box-shadow: 0 0 20px rgba(250, 204, 21, 0.4); }
-        .vermelho { background: var(--danger); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+        .azul { background: var(--accent); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+        .amarelo { background: var(--warning); width: 80px; height: 80px; box-shadow: 0 4px 20px rgba(250, 204, 21, 0.4); }
+        .vermelho { background: var(--danger); box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
 
         .controles-aux { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .btn-sec { 
-            background: #1e293b; 
-            color: white; 
-            border: 1px solid #334155; 
-            padding: 12px; 
-            border-radius: 10px; 
-            font-size: 11px; 
-            cursor: pointer;
-        }
+        .btn-sec { background: #1e293b; color: white; border: 1px solid #334155; padding: 12px; border-radius: 10px; font-size: 10px; }
     </style>
 </head>
 <body>
@@ -124,23 +83,28 @@
     <div class="container">
         <div class="dashboard">
             <div class="stat-card">
-                <span class="stat-label">Taxa Acerto</span>
-                <span class="stat-val" id="assertividade">0%</span>
+                <span class="stat-label">Win Rate</span>
+                <span class="stat-val" id="winrate">0%</span>
             </div>
             <div class="stat-card">
-                <span class="stat-label">Sequência</span>
-                <span class="stat-val" id="seq-atual">0</span>
+                <span class="stat-label">Tendência</span>
+                <span class="stat-val" id="tendencia">-</span>
             </div>
             <div class="stat-card">
-                <span class="stat-label">Padrões</span>
-                <span class="stat-val" id="padrao-count">0</span>
+                <span class="stat-label">Gale Sugerido</span>
+                <span class="stat-val" id="gale">G0</span>
             </div>
         </div>
 
         <div class="monitor" id="monitor">
-            <div id="status-entrada">A AGUARDAR DADOS</div>
+            <div id="status-entrada">ANALISANDO PADRÕES</div>
             <div id="previsao">---</div>
-            <div id="info-quebra" style="font-size: 11px; margin-top: 8px; color: var(--text-muted);">Insira pelo menos 5 cores</div>
+            
+            <div class="estrategias-lista" id="tags">
+                <span class="tag-estrategia" id="tag-onda">Surfar Onda</span>
+                <span class="tag-estrategia" id="tag-quebra">Quebra Ciclo</span>
+                <span class="tag-estrategia" id="tag-alternancia">Alternância</span>
+            </div>
         </div>
 
         <div class="grid" id="grid"></div>
@@ -154,154 +118,117 @@
         </div>
         <div class="controles-aux">
             <button class="btn-sec" onclick="desfazer()">↩️ Voltar</button>
-            <button class="btn-sec" onclick="importarSequencia()" style="background: #14532d; border: none;">📥 Importar</button>
-            <button class="btn-sec" onclick="limparTudo()" style="color: var(--danger)">🗑️ Reset</button>
+            <button class="btn-sec" onclick="importar()" style="background:#14532d; border:none;">📥 Importar</button>
+            <button class="btn-sec" onclick="reset()">🗑️ Reset</button>
         </div>
     </div>
 
 <script>
-    // Inicialização segura
-    let historico = JSON.parse(localStorage.getItem("historico")) || [];
-    let memoria = JSON.parse(localStorage.getItem("memoria")) || {};
-    let acertos = parseInt(localStorage.getItem("acertos")) || 0;
-    let totalPrevisoes = parseInt(localStorage.getItem("totalPrevisoes")) || 0;
-    let ultimaPrevisao = null;
+    let hist = JSON.parse(localStorage.getItem("bacbo_hist")) || [];
+    let wins = parseInt(localStorage.getItem("bacbo_wins")) || 0;
+    let total = parseInt(localStorage.getItem("bacbo_total")) || 0;
+    let ultimaPrev = null;
 
     function salvar() {
-        localStorage.setItem("historico", JSON.stringify(historico));
-        localStorage.setItem("memoria", JSON.stringify(memoria));
-        localStorage.setItem("acertos", acertos.toString());
-        localStorage.setItem("totalPrevisoes", totalPrevisoes.toString());
+        localStorage.setItem("bacbo_hist", JSON.stringify(hist));
+        localStorage.setItem("bacbo_wins", wins);
+        localStorage.setItem("bacbo_total", total);
     }
 
     function jogar(cor) {
-        // Valida acerto antes de adicionar a nova cor
-        if (ultimaPrevisao !== null && historico.length >= 5) {
-            totalPrevisoes++;
-            if (cor === ultimaPrevisao) acertos++;
+        if (ultimaPrev && hist.length >= 4) {
+            total++;
+            if (cor === ultimaPrev) wins++;
         }
-
-        historico.push(cor);
-        aprender();
+        hist.push(cor);
         salvar();
-        atualizarUI();
+        atualizar();
     }
 
-    function aprender() {
-        if (historico.length < 3) return;
-        for (let tam = 2; tam <= 4; tam++) {
-            if (historico.length > tam) {
-                let p = historico.slice(-(tam + 1), -1).join("");
-                let r = historico[historico.length - 1];
-                if (!memoria[p]) memoria[p] = {z:0, c:0, x:0};
-                memoria[p][r]++;
-            }
-        }
-    }
-
-    function prever() {
-        if (historico.length < 5) return null;
+    // ESTRATÉGIAS DO EBOOK
+    function analisarEstrategias() {
+        if (hist.length < 4) return { acao: "AGUARDAR", cor: null, tags: [] };
         
-        // Estratégia de Espelho
-        const seq1 = historico.slice(-3).join("");
-        const seq2 = historico.slice(-6, -3).reverse().join("");
-        if (seq1 === seq2 && seq1.length === 3) {
-            const oposto = { 'z': 'c', 'c': 'z', 'x': 'x' };
-            return oposto[historico[historico.length-1]];
-        }
+        let tags Ativas = [];
+        let r = hist.slice(-4);
+        let ultima = hist[hist.length-1];
+        
+        // 1. Estratégia "Surfar a Onda" (Repetição)
+        let repetição = hist.slice(-3).every(v => v === ultima);
+        if (repetição) tagsAtivas.push("onda");
 
-        // Cadeia de Markov
-        for (let tam = 4; tam >= 2; tam--) {
-            let p = historico.slice(-tam).join("");
-            if (memoria[p]) {
-                let d = memoria[p];
-                return Object.keys(d).reduce((a, b) => d[a] > d[b] ? a : b);
-            }
+        // 2. Estratégia "Alternância" (Z-C-Z-C)
+        let alternando = (r[0] !== r[1] && r[1] !== r[2] && r[2] !== r[3]);
+        if (alternando) tagsAtivas.push("alternancia");
+
+        // 3. Estratégia "Quebra de 4"
+        let sequenciaLonga = 0;
+        for(let i=hist.length-1; i>=0; i--) {
+            if(hist[i] === ultima) sequenciaLonga++; else break;
         }
-        return historico[historico.length-1];
+        if (sequenciaLonga >= 4) tagsAtivas.push("quebra");
+
+        // Lógica de Decisão
+        if (sequenciaLonga >= 4) return { acao: "ENTRAR", cor: (ultima === 'z' ? 'c' : 'z'), tags: tagsAtivas };
+        if (repetição) return { acao: "ENTRAR", cor: ultima, tags: tagsAtivas };
+        if (alternando) return { acao: "ENTRAR", cor: (ultima === 'z' ? 'c' : 'z'), tags: tagsAtivas };
+
+        return { acao: "ANALISANDO", cor: ultima, tags: tagsAtivas };
     }
 
-    function atualizarUI() {
-        const taxa = totalPrevisoes > 0 ? ((acertos / totalPrevisoes) * 100).toFixed(1) : 0;
-        const prev = prever();
-        ultimaPrevisao = prev;
+    function atualizar() {
+        const res = analisarEstrategias();
+        ultimaPrev = res.cor;
 
-        // Calcular Sequência
-        let seq = 0;
-        if (historico.length > 0) {
-            let ultima = historico[historico.length - 1];
-            for (let i = historico.length - 1; i >= 0; i--) {
-                if (historico[i] === ultima) seq++; else break;
-            }
-        }
-
-        document.getElementById("assertividade").innerText = taxa + "%";
-        document.getElementById("seq-atual").innerText = seq;
-        document.getElementById("padrao-count").innerText = Object.keys(memoria).length;
-
+        // UI Updates
+        document.getElementById("winrate").innerText = total > 0 ? ((wins/total)*100).toFixed(0) + "%" : "0%";
+        document.getElementById("previsao").innerText = res.cor ? traduzir(res.cor) : "---";
+        
         const mon = document.getElementById("monitor");
-        const statusEntrada = document.getElementById("status-entrada");
-        const prevTxt = document.getElementById("previsao");
-        const infoQuebra = document.getElementById("info-quebra");
+        const st = document.getElementById("status-entrada");
+        
+        // Reset tags
+        document.querySelectorAll(".tag-estrategia").forEach(t => t.classList.remove("tag-ativa"));
+        res.tags.forEach(t => document.getElementById("tag-"+t).classList.add("tag-ativa"));
 
-        if (historico.length < 5) {
-            statusEntrada.innerText = "COLETANDO DADOS";
-            statusEntrada.style.background = "#334155";
-            prevTxt.innerText = "---";
-            mon.className = "monitor";
+        if (res.acao === "ENTRAR") {
+            st.innerText = "✅ ENTRADA CONFIRMADA";
+            st.style.background = "var(--success)";
+            mon.className = "monitor sinal-forte";
         } else {
-            prevTxt.innerText = traduzir(prev).toUpperCase();
-            
-            if (seq >= 4) {
-                statusEntrada.innerText = "⚠️ AGUARDAR QUEBRA";
-                statusEntrada.style.background = "#ef4444";
-                infoQuebra.innerText = "Sequência muito longa detectada";
-                mon.className = "monitor sinal-alerta";
-            } else if (taxa >= 50 || totalPrevisoes < 5) {
-                statusEntrada.innerText = "✅ ENTRADA CONFIRMADA";
-                statusEntrada.style.background = "#22c55e";
-                infoQuebra.innerText = "Padrão estatístico favorável";
-                mon.className = "monitor sinal-verde";
-            } else {
-                statusEntrada.innerText = "⏳ MERCADO INSTÁVEL";
-                statusEntrada.style.background = "#64748b";
-                infoQuebra.innerText = "Aguardando melhor assertividade";
-                mon.className = "monitor";
-            }
+            st.innerText = "⏳ AGUARDAR PADRÃO";
+            st.style.background = "#334155";
+            mon.className = "monitor";
         }
-        desenharGrid();
+
+        // Tendência
+        let z = hist.filter(x => x === 'z').length;
+        let c = hist.filter(x => x === 'c').length;
+        document.getElementById("tendencia").innerText = z > c ? "Azul" : "Verm.";
+
+        desenhar();
     }
 
-    function desenharGrid() {
-        const grid = document.getElementById("grid");
-        grid.innerHTML = "";
-        historico.slice(-30).forEach(c => {
-            let div = document.createElement("div");
-            div.className = "celula";
-            div.style.background = c === 'z' ? 'var(--accent)' : c === 'c' ? 'var(--danger)' : 'var(--warning)';
-            grid.appendChild(div);
+    function desenhar() {
+        const g = document.getElementById("grid");
+        g.innerHTML = "";
+        hist.slice(-40).forEach(c => {
+            let d = document.createElement("div");
+            d.className = "celula";
+            d.style.background = c === 'z' ? 'var(--accent)' : c === 'c' ? 'var(--danger)' : 'var(--warning)';
+            g.appendChild(d);
         });
     }
 
-    function importarSequencia() {
-        const input = prompt("Cole as letras (ex: zxczz):");
-        if (input) {
-            const letras = input.toLowerCase().replace(/[^zxc]/g, '').split('');
-            letras.forEach(l => {
-                historico.push(l);
-                aprender();
-            });
-            salvar();
-            atualizarUI();
-        }
+    function traduzir(c) { return c === 'z' ? 'Azul' : c === 'c' ? 'Vermelho' : 'Empate'; }
+    function desfazer() { hist.pop(); salvar(); atualizar(); }
+    function reset() { if(confirm("Resetar?")) { localStorage.clear(); location.reload(); } }
+    function importar() { 
+        let s = prompt("Sequência (ex: zzc):"); 
+        if(s) { s.toLowerCase().split('').forEach(l => { if(['z','x','c'].includes(l)) hist.push(l); }); salvar(); atualizar(); } 
     }
 
-    function traduzir(c) { return c === "z" ? "Azul" : c === "c" ? "Vermelho" : "Amarelo"; }
-    function desfazer() { historico.pop(); salvar(); atualizarUI(); }
-    function limparTudo() { if (confirm("Resetar tudo?")) { localStorage.clear(); location.reload(); } }
-
-    // Inicializar UI
-    atualizarUI();
+    atualizar();
 </script>
 </body>
 </html>
